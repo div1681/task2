@@ -14,6 +14,7 @@ class _HomepageState extends State<Homepage> {
   bool low = false;
   bool num = false;
   bool sym = false;
+  bool pressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +133,67 @@ class _HomepageState extends State<Homepage> {
                     color: Color(0xFFFFD6E8),
                   ),
                 ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      "generatedPassword",
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Color(0xFFD0F0C0),
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        pressed = !pressed;
+                      });
+                    },
+                    child: AnimatedContainer(
+                      //margin: EdgeInsets.all(5),
+                      padding: EdgeInsets.all(4),
+                      duration: Duration(milliseconds: 250),
+                      height: 50,
+                      width: 50,
+                      child: Image.asset(
+                        'assets/copy.png',
+                        height: 16,
+                        width: 16,
+                        color: pressed ? Color(0xFFD0F0C0) : Color(0xFFFFD6E8),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Color(0xFF2B2B2B),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color:
+                              pressed ? Color(0xFF3E3E3E) : Color(0xFF2B2B2B),
+                        ),
+                        boxShadow: pressed
+                            ? []
+                            : [
+                                BoxShadow(
+                                  color: Color(0xFF1C1C1C),
+                                  offset: Offset(4, 4),
+                                  blurRadius: 6,
+                                ),
+                                BoxShadow(
+                                  color: Color(0xFF3A3A3A),
+                                  offset: Offset(-4, -4),
+                                  blurRadius: 6,
+                                ),
+                              ],
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
           ],
