@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task2/switch.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -9,6 +10,11 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   double password_length = 8;
+  bool up = false;
+  bool low = false;
+  bool num = false;
+  bool sym = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +65,42 @@ class _HomepageState extends State<Homepage> {
                   style: TextStyle(fontSize: 24, color: Color(0xFFD0F0C0)),
                 )
               ],
-            )
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            myswitch(
+                ON: up,
+                title: "Include uppercase letters.",
+                change: (ON) {
+                  setState(() {
+                    up = ON;
+                  });
+                }),
+            myswitch(
+                ON: low,
+                title: "Include lowercase letters.",
+                change: (ON) {
+                  setState(() {
+                    low = ON;
+                  });
+                }),
+            myswitch(
+                ON: num,
+                title: "Include numbers.",
+                change: (ON) {
+                  setState(() {
+                    num = ON;
+                  });
+                }),
+            myswitch(
+                ON: sym,
+                title: "Include special characters.",
+                change: (ON) {
+                  setState(() {
+                    sym = ON;
+                  });
+                }),
           ],
         ),
       ),
