@@ -101,6 +101,39 @@ class _HomepageState extends State<Homepage> {
                     sym = ON;
                   });
                 }),
+            SizedBox(
+              height: 20,
+            ),
+            Center(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFFFD6E8),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
+                ),
+                onPressed: () {},
+                child: const Text("Generate Password",
+                    style: TextStyle(fontSize: 18, color: Color(0xFF2B2B2B))),
+              ),
+            ),
+            Center(
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: Color(0xFFFFD6E8), width: 1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+                onPressed: () {},
+                child: const Text(
+                  "Generate Password",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Color(0xFFFFD6E8),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
