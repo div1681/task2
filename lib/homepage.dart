@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:safe_password_generator/safe_password_generator.dart';
 import 'package:task2/switch.dart';
 
 class Homepage extends StatefulWidget {
@@ -15,6 +17,8 @@ class _HomepageState extends State<Homepage> {
   bool num = false;
   bool sym = false;
   bool pressed = false;
+  String password = "";
+  bool show = false;
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +116,17 @@ class _HomepageState extends State<Homepage> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16)),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  password = SafePasswordGenerator.generatePassword(
+                      length: password_length.toInt(),
+                      includeUppercase: up,
+                      includeLowercase: low,
+                      includeNumbers: num,
+                      includeSpecialCharacters: sym);
+                  setState(() {
+                    password = password;
+                  });
+                },
                 child: const Text("Generate Password",
                     style: TextStyle(fontSize: 18, color: Color(0xFF2B2B2B))),
               ),
@@ -125,7 +139,18 @@ class _HomepageState extends State<Homepage> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  password = SafePasswordGenerator.generatePassword(
+                      length: password_length.toInt(),
+                      includeUppercase: up,
+                      includeLowercase: low,
+                      includeNumbers: num,
+                      includeSpecialCharacters: sym);
+                  setState(() {
+                    password = password;
+                    show = false;
+                  });
+                },
                 child: const Text(
                   "Generate Password",
                   style: TextStyle(
@@ -135,26 +160,16 @@ class _HomepageState extends State<Homepage> {
                 ),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              margin: const EdgeInsets.symmetric(horizontal: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 24),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: Text(
-                      "generatedPassword",
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Color(0xFFD0F0C0),
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
                   GestureDetector(
+                    //eye
                     onTap: () {
                       setState(() {
-                        pressed = !pressed;
+                        show = !show;
                       });
                     },
                     child: AnimatedContainer(
@@ -163,10 +178,68 @@ class _HomepageState extends State<Homepage> {
                       duration: Duration(milliseconds: 250),
                       height: 50,
                       width: 50,
+                      child: Icon(
+                        show ? Icons.visibility : Icons.visibility_off,
+                        color: show ? Color(0xFFD0F0C0) : Color(0xFFFFD6E8),
+                      ),
+                      // child: Image.asset(
+                      //   'assets/copy.png',
+                      //   height: 16,
+                      //   width: 16,
+                      //   color: pressed ? Color(0xFFD0F0C0) : Color(0xFFFFD6E8),
+                      // ),
+                      decoration: BoxDecoration(
+                        color: Color(0xFF2B2B2B),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: show ? Color(0xFF3E3E3E) : Color(0xFF2B2B2B),
+                        ),
+                        boxShadow: show
+                            ? []
+                            : [
+                                BoxShadow(
+                                  color: Color(0xFF1C1C1C),
+                                  offset: Offset(4, 4),
+                                  blurRadius: 6,
+                                ),
+                                BoxShadow(
+                                  color: Color(0xFF3A3A3A),
+                                  offset: Offset(-4, -4),
+                                  blurRadius: 6,
+                                ),
+                              ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      show ? password : "*" * password.length,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        color: Color(0xFFD0F0C0),
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      if (password != null) {
+                        Clipboard.setData(ClipboardData(text: password));
+                      }
+                      setState(() {
+                        pressed = !pressed;
+                      });
+                    },
+                    child: AnimatedContainer(
+                      //margin: EdgeInsets.all(5),
+                      padding: EdgeInsets.all(10),
+                      duration: Duration(milliseconds: 250),
+                      height: 50,
+                      width: 50,
                       child: Image.asset(
                         'assets/copy.png',
-                        height: 16,
-                        width: 16,
+                        height: 12,
+                        width: 12,
                         color: pressed ? Color(0xFFD0F0C0) : Color(0xFFFFD6E8),
                       ),
                       decoration: BoxDecoration(
