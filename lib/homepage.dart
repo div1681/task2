@@ -31,8 +31,9 @@ class _HomepageState extends State<Homepage> {
         backgroundColor: Color(0xFFFFD6E8),
         centerTitle: true,
         title: Text(
-          'P A S S  W O R D',
-          style: TextStyle(color: Color(0xFF2B2B2B), fontSize: 32),
+          'P A S S - W O R D',
+          style: TextStyle(
+              color: Color(0xFF2B2B2B), fontSize: 32, fontFamily: 'Agency'),
         ),
       ),
       body: Padding(
@@ -117,6 +118,23 @@ class _HomepageState extends State<Homepage> {
                       borderRadius: BorderRadius.circular(16)),
                 ),
                 onPressed: () {
+                  if (!up && !low && !num && !sym) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text("No options selected"),
+                        content: Text(
+                            "Please select at least one option to generate password."),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("OK"),
+                          ),
+                        ],
+                      ),
+                    );
+                    return;
+                  }
                   password = SafePasswordGenerator.generatePassword(
                       length: password_length.toInt(),
                       includeUppercase: up,
@@ -131,35 +149,35 @@ class _HomepageState extends State<Homepage> {
                     style: TextStyle(fontSize: 18, color: Color(0xFF2B2B2B))),
               ),
             ),
-            Center(
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: Color(0xFFFFD6E8), width: 1),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                onPressed: () {
-                  password = SafePasswordGenerator.generatePassword(
-                      length: password_length.toInt(),
-                      includeUppercase: up,
-                      includeLowercase: low,
-                      includeNumbers: num,
-                      includeSpecialCharacters: sym);
-                  setState(() {
-                    password = password;
-                    show = false;
-                  });
-                },
-                child: const Text(
-                  "Generate Password",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Color(0xFFFFD6E8),
-                  ),
-                ),
-              ),
-            ),
+            // Center(
+            //   child: OutlinedButton(
+            //     style: OutlinedButton.styleFrom(
+            //       side: BorderSide(color: Color(0xFFFFD6E8), width: 1),
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(16),
+            //       ),
+            //     ),
+            //     onPressed: () {
+            //       password = SafePasswordGenerator.generatePassword(
+            //           length: password_length.toInt(),
+            //           includeUppercase: up,
+            //           includeLowercase: low,
+            //           includeNumbers: num,
+            //           includeSpecialCharacters: sym);
+            //       setState(() {
+            //         password = password;
+            //         show = false;
+            //       });
+            //     },
+            //     child: const Text(
+            //       "Generate Password",
+            //       style: TextStyle(
+            //         fontSize: 18,
+            //         color: Color(0xFFFFD6E8),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, top: 24),
               child: Row(
@@ -268,6 +286,13 @@ class _HomepageState extends State<Homepage> {
                   )
                 ],
               ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Text(
+              "PASSWORD STRENGTH IS ${SafePasswordGenerator.calculatePasswordStrength(password).toInt()}%",
+              style: TextStyle(color: Color(0xFFD0F0C0), fontSize: 20),
             ),
           ],
         ),
